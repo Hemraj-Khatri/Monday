@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-
+import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -9,20 +8,19 @@ function HomePage() {
       .then((resp) => resp.json())
       .then((data) => setProducts(data))
       .catch((err) =>
-        console.log("error when fetch api from backend " + err.message)
+        console.log("Error while fetching product from backend" + err.message)
       );
   }, []);
   return (
     <>
-      <Container>
-        <Row>
-          {products.map((product) => (
-            <Col sm={12} md={4}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      <Row>
+        <h1>Latest Product</h1>
+        {products.map((product) => (
+          <Col sm={12} md={6} lg={4} xlg={2} key={product._id}>
+            <Product product={product} />
+          </Col>
+        ))}
+      </Row>
     </>
   );
 }
