@@ -20,13 +20,13 @@ function CartPage() {
           <ListGroup variant="flush">
             {cartItems.map((item) => (
               <ListGroup.Item>
-                <Row>
+                <Row className="d-flex align-items-center">
                   <Col md={3}>
                     <Image src={item.image} fluid rounded />
                   </Col>
                   <Col md={4}>
                     <Link to={`/product/${item._id}`}>
-                      <h3>{item.name}</h3>
+                      <h5>{item.name}</h5>
                     </Link>
                   </Col>
                   <Col>
@@ -58,7 +58,52 @@ function CartPage() {
             ))}
           </ListGroup>
         </Col>
-        <Col md={4}></Col>
+        <Col md={4}>
+          <ListGroup>
+            <ListGroup.Item>
+              <h3>
+                Total ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                Products
+              </h3>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Row>
+                <Col>Sub total</Col>
+                <Col>
+                  $
+                  {cartItems
+                    .reduce((acc, item) => acc + item.price * item.qty, 0)
+                    .toFixed(2)}
+                </Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Row>
+                <Col>Delivery Charge</Col>
+                <Col>$5</Col>
+              </Row>
+            </ListGroup.Item>
+
+            <ListGroup.Item>
+              <Row>
+                <Col>Total Cost</Col>
+                <Col>
+                  $
+                  {cartItems
+                    .reduce((acc, item) => acc + item.qty * item.price, 5)
+                    .toFixed(2)}
+                </Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Row className="text-end">
+                <Col>
+                  <Button>Checkout</Button>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
       </Row>
     </>
   );
