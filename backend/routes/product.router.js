@@ -1,5 +1,4 @@
 import express from "express";
-import { checkAdmin, checkAuth } from "../middleware/auth.middleware.js";
 import {
   addProduct,
   addUserReview,
@@ -8,6 +7,7 @@ import {
   getProducts,
   updateProduct,
 } from "../controller/product.controller.js";
+import { checkAdmin, checkAuth } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 

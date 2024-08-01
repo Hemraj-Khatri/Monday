@@ -1,4 +1,5 @@
 import { Col, Row } from "react-bootstrap";
+import Message from "../components/Message";
 import Product from "../components/Product";
 import { useGetProductsQuery } from "../slices/productSlice";
 function HomePage() {
@@ -17,6 +18,8 @@ function HomePage() {
     <>
       {isLoading ? (
         <h1>Loading....</h1>
+      ) : error ? (
+        <Message variant="primary">{error.data.error}</Message>
       ) : (
         <Row>
           <h1>Latest Product</h1>

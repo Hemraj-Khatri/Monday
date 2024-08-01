@@ -10,7 +10,7 @@ function App() {
       <Container>
         <Outlet />
       </Container>
-      <ToastContainer />
+      <ToastContainer autoClose={1000} />
     </>
   );
 }
