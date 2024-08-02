@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import { addToCart, removeCart } from "../slices/cartSlice";
 function CartPage() {
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems, shippingCharge, totalPrice, itemPrice } = useSelector(
+    (state) => state.cart
+  );
+
   const dispatch = useDispatch();
 
   const updateCartQty = (item, qty) => {
@@ -25,7 +28,7 @@ function CartPage() {
           <Col md={8}>
             <ListGroup variant="flush">
               {cartItems.map((item) => (
-                <ListGroup.Item>
+                <ListGroup.Item key={item._id}>
                   <Row className="d-flex align-items-center">
                     <Col md={3}>
                       <Image src={item.image} fluid rounded />
@@ -75,30 +78,20 @@ function CartPage() {
               <ListGroup.Item>
                 <Row>
                   <Col>Sub total</Col>
-                  <Col>
-                    $
-                    {cartItems
-                      .reduce((acc, item) => acc + item.price * item.qty, 0)
-                      .toFixed(2)}
-                  </Col>
+                  <Col>${itemPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Delivery Charge</Col>
-                  <Col>$5</Col>
+                  <Col>{shippingCharge}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Total Cost</Col>
-                  <Col>
-                    $
-                    {cartItems
-                      .reduce((acc, item) => acc + item.qty * item.price, 5)
-                      .toFixed(2)}
-                  </Col>
+                  <Col>${totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>

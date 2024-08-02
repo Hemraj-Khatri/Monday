@@ -14,6 +14,7 @@ import "./index.css";
 import CartPage from "./pages/CartPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import { store } from "./store.js";
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="shipping" element={<ShippingPage />} />
+        <Route path="/placeorder" element={<PlaceOrderPage />} />
       </Route>
     </Route>
   )
