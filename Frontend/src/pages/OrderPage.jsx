@@ -45,7 +45,6 @@ function OrderPage() {
                 <ListGroup>
                   {order.orderItems.map((item) => (
                     <ListGroup.Item key={item._id}>
-                      {console.log(item)}
                       <Row>
                         <Col md={2}>
                           <Image src={item.image} fluid rounded />

@@ -1,13 +1,16 @@
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { allCartClear } from "../slices/cartSlice";
 import { usePlaceOrderMutation } from "../slices/orderSlice";
 function PlaceOrderPage() {
   const cart = useSelector((state) => state.cart);
 
   const [placeOrder, { isLoading }] = usePlaceOrderMutation();
+  console.log(placeOrder);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const placeOrderHandler = async () => {
     try {
@@ -18,7 +21,7 @@ function PlaceOrderPage() {
         shippingCharge: cart.shippingCharge,
         totalPrice: cart.totalPrice,
       }).unwrap();
-
+      dispatch(allCartClear());
       toast.success(resp.message);
       navigate("/order/" + resp.orderId);
     } catch (error) {
