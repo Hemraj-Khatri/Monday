@@ -1,11 +1,14 @@
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { usePlaceOrderMutation } from "../slices/orderSlice";
 function PlaceOrderPage() {
   const cart = useSelector((state) => state.cart);
+
   const [placeOrder, { isLoading }] = usePlaceOrderMutation();
+
+  const navigate = useNavigate();
   const placeOrderHandler = async () => {
     try {
       let resp = await placeOrder({
@@ -15,13 +18,14 @@ function PlaceOrderPage() {
         shippingCharge: cart.shippingCharge,
         totalPrice: cart.totalPrice,
       }).unwrap();
-      console.log(resp);
+
       toast.success(resp.message);
+      navigate("/order/" + resp.orderId);
     } catch (error) {
-      toast.error(err.data.error);
+      toast.error(error.data.error);
     }
   };
-  console.log(cart);
+
   return (
     <Row className="my-4">
       <Col md={8}>
@@ -39,7 +43,7 @@ function PlaceOrderPage() {
           </ListGroup.Item>
           <ListGroup.Item>
             {cart.cartItems.map((item) => (
-              <ListGroup.Item>
+              <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
                     <Image src={item.image} fluid rounded />

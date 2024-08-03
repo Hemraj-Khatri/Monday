@@ -46,7 +46,13 @@ function Header() {
 
             {userInfo ? (
               <NavDropdown title={userInfo.name}>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
+                <NavDropdown.Item
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  Profile
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={userLogoutHandler}>
                   Logout
                 </NavDropdown.Item>

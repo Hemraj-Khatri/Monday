@@ -16,7 +16,10 @@ const addOrder = asyncHandler(async (req, res) => {
     shippingCharge,
     totalPrice,
   });
-  res.send({ message: "Order created with id" + order._id });
+  res.send({
+    message: "Order created with id" + order._id,
+    orderId: order._id,
+  });
 });
 
 const getOders = asyncHandler(async (req, res) => {

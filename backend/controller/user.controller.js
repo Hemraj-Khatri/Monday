@@ -93,7 +93,14 @@ const updateUserProfile = asynHandler(async (req, res) => {
       user.password = req.body.password;
     }
     let updateUser = await user.save();
-    res.send({ message: "user profile updated", user: updateUser });
+    res.send({
+      message: "user profile updated",
+      user: {
+        name: updateUser.name,
+        email: updateUser.email,
+        isAdmin: updateUser.isAdmin,
+      },
+    });
   }
 });
 
