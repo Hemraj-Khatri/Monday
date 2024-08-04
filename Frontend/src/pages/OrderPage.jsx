@@ -47,7 +47,7 @@ function OrderPage() {
                   Address {order.shippingAddress.city}
                 </p>
                 {order.isDelivered ? (
-                  <Message>Delivered At{order.deliveredArt}</Message>
+                  <Message>Delivered At{order.deliveredAt}</Message>
                 ) : (
                   <Message variant="danger"> Not Delevered</Message>
                 )}
@@ -56,7 +56,7 @@ function OrderPage() {
                 <h3>Payment</h3>
                 <p>Mode: COD</p>
                 {order.isPaid ? (
-                  <Message>Paid On{order.deliveredArt}</Message>
+                  <Message>Paid On{order.deliveredAt}</Message>
                 ) : (
                   <Message variant="danger"> Not Paid</Message>
                 )}

@@ -1,6 +1,7 @@
 import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logout } from "../slices/authSlice";
@@ -25,7 +26,7 @@ function Header() {
   };
 
   return (
-    <Navbar expand="lg" variant="dark" bg="dark">
+    <Navbar expand="lg" variant="dark" bg="dark" className="sticky-top">
       <Container>
         <NavLink to="/" className="navbar-brand">
           <Navbar.Brand>Online Shopping</Navbar.Brand>
@@ -65,9 +66,12 @@ function Header() {
 
             {userInfo && userInfo.isAdmin && (
               <NavDropdown title="Admin">
-                <NavDropdown.Item>
-                  <NavLink to={`/admin/orders`}>Orders</NavLink>
-                </NavDropdown.Item>
+                <LinkContainer to={`/admin/orders`}>
+                  <NavDropdown.Item>Orders</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/products">
+                  <NavDropdown.Item>Product</NavDropdown.Item>
+                </LinkContainer>
               </NavDropdown>
             )}
           </Nav>
