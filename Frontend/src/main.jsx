@@ -9,8 +9,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.jsx";
+
+import AdminRoute from "./components/AdminRoute.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import "./index.css";
+import OrderListPage from "./pages/admin/OrderLIstPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
@@ -33,6 +36,10 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+      </Route>
+
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/orders" element={<OrderListPage />} />
       </Route>
     </Route>
   )

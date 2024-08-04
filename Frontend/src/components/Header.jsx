@@ -1,7 +1,4 @@
-import { Badge, NavDropdown } from "react-bootstrap";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -10,7 +7,9 @@ import { logout } from "../slices/authSlice";
 import { useUserLogoutMutation } from "../slices/userApiSlice";
 function Header() {
   const { cartItems } = useSelector((state) => state.cart);
+
   const { userInfo } = useSelector((state) => state.auth);
+
   const [userLogout, { isLoading }] = useUserLogoutMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ function Header() {
       toast.success(resp.message);
       navigate("/login");
     } catch (error) {
-      console.log(error.message);
+      toast.success(error.message);
     }
   };
 
@@ -62,6 +61,14 @@ function Header() {
                 <FaUser />
                 Login
               </NavLink>
+            )}
+
+            {userInfo && userInfo.isAdmin && (
+              <NavDropdown title="Admin">
+                <NavDropdown.Item>
+                  <NavLink to={`/admin/orders`}>Orders</NavLink>
+                </NavDropdown.Item>
+              </NavDropdown>
             )}
           </Nav>
         </Navbar.Collapse>

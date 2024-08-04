@@ -1,11 +1,35 @@
-import { Badge, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Badge, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Message from "../components/Message";
-import { useGetOrderByIdQuery } from "../slices/orderSlice";
+import {
+  useChangeStatusMutation,
+  useGetOrderByIdQuery,
+} from "../slices/orderSlice";
 import { orderStatusColors } from "../utils/orderStatusColors";
+
 function OrderPage() {
+  const [updateOrderStatus, { isLoading: updateLoading }] =
+    useChangeStatusMutation();
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [orderStatus, setOrderStatus] = useState("");
   const { id } = useParams();
   const { data: order, refetch, isLoading, error } = useGetOrderByIdQuery(id);
+  const { userInfo } = useSelector((state) => state.auth);
+  const updateStatusHandler = async (id, status) => {
+    try {
+      let resp = await updateOrderStatus({ id, status }).unwrap();
+      refetch();
+      setIsEdit(false);
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err.data.error);
+    }
+  };
 
   return (
     <>
@@ -23,9 +47,7 @@ function OrderPage() {
                   Address {order.shippingAddress.city}
                 </p>
                 {order.isDelivered ? (
-                  <Message>
-                    Delivered At{order.deliveredArt.substring(0, 10)}
-                  </Message>
+                  <Message>Delivered At{order.deliveredArt}</Message>
                 ) : (
                   <Message variant="danger"> Not Delevered</Message>
                 )}
@@ -34,9 +56,7 @@ function OrderPage() {
                 <h3>Payment</h3>
                 <p>Mode: COD</p>
                 {order.isPaid ? (
-                  <Message>
-                    Paid On{order.deliveredArt.substring(0, 10)}
-                  </Message>
+                  <Message>Paid On{order.deliveredArt}</Message>
                 ) : (
                   <Message variant="danger"> Not Paid</Message>
                 )}
@@ -87,12 +107,31 @@ function OrderPage() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status</Col>
-                    <Col>
-                      <Badge bg={orderStatusColors[order.status]}>
-                        {order.status}
-                      </Badge>
+                    <Col md={4}>Status</Col>
+                    <Col md={6}>
+                      {isEdit ? (
+                        <Form.Control
+                          as="select"
+                          onChange={(e) =>
+                            updateStatusHandler(order._id, e.target.value)
+                          }
+                        >
+                          <option>pending</option>
+                          <option>in progress</option>
+                          <option>cancelled</option>
+                          <option>delivered</option>
+                        </Form.Control>
+                      ) : (
+                        <Badge bg={orderStatusColors[order.status]}>
+                          {order.status}
+                        </Badge>
+                      )}
                     </Col>
+                    {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                      <Col>
+                        <FaEdit onClick={() => setIsEdit(true)} />
+                      </Col>
+                    )}
                   </Row>
                 </ListGroup.Item>
               </ListGroup>
