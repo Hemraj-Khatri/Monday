@@ -8,7 +8,9 @@
     "server": "nodemon --env-file=.env backend/index.js",
     "client": "npm run dev --prefix=Frontend",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+    "start": "node backend/index.js"
   },
   "keywords": [],
   "author": "Hemraj Khatri",

@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logout } from "../slices/authSlice";
 import { useUserLogoutMutation } from "../slices/userApiSlice";
+import SearchBox from "./SearchBox";
 function Header() {
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -34,6 +35,7 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
+            <SearchBox />
             <NavLink to="/cart" className="nav-link">
               <FaShoppingCart />
               Cart{" "}

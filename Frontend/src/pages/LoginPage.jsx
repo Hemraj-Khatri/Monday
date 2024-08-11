@@ -60,7 +60,7 @@ function LoginPage() {
             ></Form.Control>
           </FormGroup>
           <Button type="submit" variant="primary" className="mt-2">
-            Sign In
+            LogIn
           </Button>
         </Form>
         <Row className="py-3">

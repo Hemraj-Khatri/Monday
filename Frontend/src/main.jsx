@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 
+import { HelmetProvider } from "react-helmet-async";
 import AdminRoute from "./components/AdminRoute.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import "./index.css";
@@ -29,6 +30,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<HomePage />} />
+      <Route path="/search/:keyword" element={<HomePage />} />
+      <Route path="/page/:pageNumber" element={<HomePage />} />
       <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -43,6 +46,10 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orders" element={<OrderListPage />} />
         <Route path="/admin/products" element={<ProductListPage />} />
+        <Route
+          path="/admin/products/page/:pageNumber"
+          element={<ProductListPage />}
+        />
         <Route path="/admin/products/:id/edit" element={<ProductEditPage />} />
       </Route>
     </Route>
@@ -50,7 +57,10 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <HelmetProvider>
+    {" "}
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </HelmetProvider>
 );

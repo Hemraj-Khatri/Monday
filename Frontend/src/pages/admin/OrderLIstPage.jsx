@@ -5,7 +5,6 @@ import Message from "../../components/Message";
 import { useGetAllOrdersQuery } from "../../slices/orderSlice";
 function OrderListPage() {
   const { data: orders, isLoading, error } = useGetAllOrdersQuery();
-  console.log(orders);
 
   return (
     <>
@@ -42,7 +41,7 @@ function OrderListPage() {
                   )}
                 </td>
                 <td>
-                  {order.isDelevered ? (
+                  {order.isDelivered ? (
                     order.deliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: "red" }} />

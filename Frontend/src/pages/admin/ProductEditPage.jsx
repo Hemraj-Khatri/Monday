@@ -6,6 +6,7 @@ import FormContainer from "../../components/FormContainer";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from "../../slices/productSlice";
 function ProductEditPage() {
   const [name, setName] = useState("");
@@ -22,9 +23,7 @@ function ProductEditPage() {
   const navigate = useNavigate();
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
   const [uploadProductImage, { isLoading: imageLoading }] =
-    useUpdateProductMutation();
-
-  console.log({ uploadProductImage });
+    useUploadProductImageMutation();
 
   useEffect(() => {
     if (product) {
@@ -65,8 +64,11 @@ function ProductEditPage() {
       formData.append("image", e.target.files[0]);
       let resp = await uploadProductImage(formData).unwrap();
       setImage(resp.path);
+
       toast.success(resp.message);
     } catch (err) {
+      console.log(err.data.stack);
+
       toast.error(err.data.error);
     }
   };
@@ -107,6 +109,7 @@ function ProductEditPage() {
             <Form.Label>Image</Form.Label>
             <Form.Control type="file" onChange={uploadImageHandler} />
           </Form.Group>
+
           <Form.Group controlId="price" className="my-2">
             <Form.Label>Price</Form.Label>
             <Form.Control
@@ -121,7 +124,7 @@ function ProductEditPage() {
             <Form.Control
               type="text"
               value={countInStock}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setCountInStock(e.target.value)}
             ></Form.Control>
           </Form.Group>
 
