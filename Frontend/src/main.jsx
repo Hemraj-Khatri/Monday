@@ -24,6 +24,7 @@ import OrderPage from "./pages/OrderPage.jsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import { store } from "./store.js";
 const router = createBrowserRouter(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       <Route path="/" element={<PrivateRoute />}>
         <Route path="shipping" element={<ShippingPage />} />

@@ -8,11 +8,14 @@ function App() {
   return (
     <>
       <Header />
-      <Container>
-        <Outlet />
-      </Container>
-      <Footer />
-      <ToastContainer autoClose={1000} />
+      <div className="d-flex flex-column min-vh-100">
+        <Container className="flex-grow-1">
+          {/* main content goes here */}
+          <Outlet />
+        </Container>
+        <Footer />
+        <ToastContainer autoClose={1000} />
+      </div>
     </>
   );
 }

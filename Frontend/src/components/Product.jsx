@@ -1,10 +1,10 @@
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
 
+import Rating from "./Rating";
 function Product({ product }) {
   return (
-    <Card className="my-3 p-3">
+    <Card className="my-3 p-3 card-hover-effect">
       <Link to={`/product/${product._id}`}>
         <Card.Img variant="top" src={product.image} />
       </Link>
