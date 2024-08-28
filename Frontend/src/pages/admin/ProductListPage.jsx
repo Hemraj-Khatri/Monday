@@ -9,9 +9,11 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../slices/productSlice";
+
 function ProductListPage() {
-  const { pageNumber } = useParams();
-  const { data, isLoading, error } = useGetProductsQuery(pageNumber);
+  const { pageNumber = 1 } = useParams(); // Default to 1 if not provided
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+
   const [addProduct, { isLoading: productLoading }] = useAddProductMutation();
   const [deleteProduct, { isLoading: deleteLoading }] =
     useDeleteProductMutation();
@@ -21,7 +23,7 @@ function ProductListPage() {
       let resp = await addProduct().unwrap();
       toast.success(resp.message);
     } catch (error) {
-      toast.error(error.data.error);
+      toast.error(error.data?.error || "Failed to add product.");
     }
   };
 
@@ -31,29 +33,38 @@ function ProductListPage() {
         let resp = await deleteProduct(id).unwrap();
         toast.success(resp.message);
       } catch (err) {
-        toast.error(err.data.error);
+        toast.error(err.data?.error || "Failed to delete product.");
       }
     }
   };
 
+  if (isLoading) return <h1>Loading...</h1>;
+
+  if (error) {
+    return (
+      <Message variant="danger">
+        {error?.data?.error || "An unexpected error occurred."}
+      </Message>
+    );
+  }
+
+  if (!data?.products) {
+    return <Message variant="danger">No products found.</Message>;
+  }
+
   return (
     <>
-      <Row className=" my-4">
+      <Row className="my-4">
         <Col>
           <h2>Products</h2>
         </Col>
         <Col className="text-end">
           <Button variant="dark" size="sm" onClick={addProductHandler}>
-            <FaEdit />
-            Create Product
+            <FaEdit /> Create Product
           </Button>
         </Col>
       </Row>
-      {isLoading ? (
-        <h1>Loading......</h1>
-      ) : error ? (
-        <Message>{error.data.error}</Message>
-      ) : (
+      {data.products.length > 0 ? (
         <>
           <Table responsive striped hover size="sm">
             <thead>
@@ -101,8 +112,11 @@ function ProductListPage() {
           </Table>
           <Paginate page={data.page} pages={data.pages} admin={true} />
         </>
+      ) : (
+        <Message>No products found.</Message>
       )}
     </>
   );
 }
+
 export default ProductListPage;

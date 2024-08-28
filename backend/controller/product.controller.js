@@ -6,7 +6,7 @@ import apiError from "../utils/apiError.js";
 //route:/api/v1/products
 //access public
 const getProducts = asynHandler(async (req, res) => {
-  const pageSize = 2;
+  const pageSize = 4;
   const page = Number(req.query.pageNumber) || 1;
   let keyword = req.query.keyword;
   keyword = keyword
