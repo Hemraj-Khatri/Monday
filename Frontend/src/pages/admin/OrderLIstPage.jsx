@@ -3,6 +3,7 @@ import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Message from "../../components/Message";
 import { useGetAllOrdersQuery } from "../../slices/orderSlice";
+
 function OrderListPage() {
   const { data: orders, isLoading, error } = useGetAllOrdersQuery();
 
@@ -30,7 +31,7 @@ function OrderListPage() {
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.user.name}</td>
+                <td>{order.user ? order.user.name : "Unknown User"}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>{order.totalPrice}</td>
                 <td>
